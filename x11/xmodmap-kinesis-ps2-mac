@@ -1,0 +1,15 @@
+! xmodmap for Kinesis MPC, connecting in PC mode, to use Mac modifiers.
+
+clear Control
+remove Mod1 = Alt_R
+!clear Mod1
+
+! keysym LHS is the "normal" symbol, RHS is the desired symbol
+
+keysym Control_L = Super_L
+keysym Alt_R     = Control_R
+keysym Control_R = Super_R
+
+add Control = Control_R
+add Mod1    = Alt_L     Alt_R
+add Mod4    = Super_L Super_R
