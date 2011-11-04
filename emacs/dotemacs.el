@@ -254,7 +254,7 @@ adding suffixes .elc or .el to the specified name FILE."
 ;;;   General Key bindings
 ;;;
 
-(global-set-key "\M-z"          'undo)
+'(global-set-key "\M-z"          'undo)
 (global-set-key "\M-g"          'goto-line)
 (global-set-key "\M-\C-g"       'goto-char)
 (global-set-key "\M-\C-p"       'up-20)
@@ -262,7 +262,6 @@ adding suffixes .elc or .el to the specified name FILE."
 (global-set-key "\M-p"          'up-20)
 (global-set-key "\M-n"          'down-20)
 
-(global-set-key "\M-#"          'what-line)
 (global-set-key "\C-^"          'invert-character)
 
 (global-set-key "\C-xc"         'compile)
@@ -339,15 +338,10 @@ Like find-file but marks buffer as read-only."
 ;;;   Major Editing modes
 ;;;
 
-;; Get rid of any old c-mode that is still around
-;(fmakunbound 'c-mode)
-;(makunbound  'c-mode-map)
-;(fmakunbound 'c++-mode)
-;(makunbound  'c++-mode-map)
-;(makunbound  'c-style-alist)
+; http://jblevins.org/projects/markdown-mode/
+(autoload 'markdown-mode "tvj-markdown-mode.el"
+   "Major mode for editing Markdown files" t)
 
-;(autoload 'c++-mode "cc-mode" "C++ Editing Mode" t)
-;(autoload 'c-mode   "cc-mode" "C Editing Mode"   t)
 (setq auto-mode-alist
       (append '(
 		("\\.asdl$" . sgml-mode)
@@ -363,6 +357,7 @@ Like find-file but marks buffer as read-only."
 		("\\.jsp$" . java-mode)
 		("\\.rvw$" . java-mode)
 		("\\.wsdl$" . sgml-mode)
+		("\\.md" . markdown-mode)
 		)
               auto-mode-alist))
 

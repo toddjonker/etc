@@ -160,6 +160,13 @@
 
 (defun my-xwindow-setup ()
 
+  ; Force the super key to act as meta.
+  ; The Kinesis Ctr/Cmd key looks like Super to X
+  ; Simply remapping that worked in X but Synergy couldn't map it back to Cmd
+  ; This is annoying, I'd rather handle this all in X and Synergy so its the
+  ; same throughout X applications.
+  (setq x-super-keysym 'meta)
+
   (setq default-frame-alist '(;(minibuffer . nil)
 			      (font . "6x13")
 			      (width  . 80)
@@ -188,8 +195,8 @@
       ;; It's easy to hit this by mistake, and that can be annoying.
       ;; Under X, you can always quit with the "Exit Emacs" option on
       ;; the Files menu.
-      ;(global-set-key "\C-x\C-c" nil)
-
+      '(global-set-key "\C-x\C-c" nil)
+      ;; Disabled 2009-07-10 because I find I want this more often now.
 
       ;; Turn on font-lock mode all over the place!  I like it!
       (require 'font-lock)
