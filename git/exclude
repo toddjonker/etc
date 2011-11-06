@@ -1,2 +1,7 @@
+# To use this file, add the following to ~/.gitconfig
+#
+# [core]
+#    excludesfile = ~/etc/git/exclude
+
 .svn/
 *~
