@@ -1,0 +1,6 @@
+[user]
+    name = Todd V. Jonker
+    email = todd@toddjonker.net
+
+[core]
+    excludesfile = ~/etc/git/exclude
