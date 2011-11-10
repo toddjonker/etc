@@ -355,6 +355,7 @@ Like find-file but marks buffer as read-only."
                 ("\\.ih$"  . c++-mode)
 		("\\.jelly$" . sgml-mode)
 		("\\.jsp$" . java-mode)
+		("\\.org\\'" . org-mode)
 		("\\.rvw$" . java-mode)
 		("\\.wsdl$" . sgml-mode)
 		("\\.md" . markdown-mode)
