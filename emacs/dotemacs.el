@@ -66,12 +66,12 @@
 (setq default-major-mode 'text-mode)
 
 '(add-hook 'text-mode-hook 
-	  (function
-	   (lambda ()
-	     (setq indent-line-function 'indent-relative-maybe)
-	     ;; I don't like this any more.
-	     ;; It tends to screw up config files and such.
-	     '(auto-fill-mode 1))))
+          (function
+           (lambda ()
+             (setq indent-line-function 'indent-relative-maybe)
+             ;; I don't like this any more.
+             ;; It tends to screw up config files and such.
+             '(auto-fill-mode 1))))
 
 
 ;; Use 4-character tab stops.
@@ -98,7 +98,7 @@
     (insert "\n#")
     (insert-char char 78))
    ((or (eq major-mode 'sgml-mode)
-	(eq major-mode 'html-mode))
+        (eq major-mode 'html-mode))
     (if (eq char ?-)
         (message "You don't want to do that!")
       (progn (insert "\n<!-- ")
@@ -293,10 +293,10 @@ adding suffixes .elc or .el to the specified name FILE."
 
 ; Electric-buffer-list pops up window to select/manipulate buffers.
 (setq electric-buffer-menu-mode-hook
-      (function
-       (lambda ()
-         (local-set-key "e" 'Buffer-menu-execute)
-         (my-electric-keys))))
+  (function
+    (lambda ()
+      (local-set-key "e" 'Buffer-menu-execute)
+      (my-electric-keys))))
 
 
 ; Make the electric modes more useful by adding searching and copying.
@@ -344,17 +344,17 @@ Like find-file but marks buffer as read-only."
 
 (setq auto-mode-alist
       (append '(
-		("\\.asdl$" . sgml-mode)
+                ("\\.asdl$" . sgml-mode)
                 ("\\.C$"   . c++-mode)
                 ("\\.c$"   . c-mode)
                 ("\\.cc$"  . c++-mode)
                 ("\\.cp$"  . c++-mode)
-		("\\.cxx$" . c++-mode)
+                ("\\.cxx$" . c++-mode)
                 ("\\.H$"   . c++-mode)
                 ("\\.h$"   . c++-mode)
                 ("\\.ih$"  . c++-mode)
-		("\\.jelly$" . sgml-mode)
-		("\\.jsp$" . java-mode)
+                ("\\.jelly$" . sgml-mode)
+                ("\\.jsp$" . java-mode)
 		("\\.org\\'" . org-mode)
 		("\\.rvw$" . java-mode)
 		("\\.wsdl$" . sgml-mode)
