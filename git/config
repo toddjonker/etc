@@ -4,3 +4,6 @@
 
 [core]
     excludesfile = ~/etc/git/exclude
+
+[color]
+    branch = auto
