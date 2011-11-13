@@ -3,6 +3,9 @@
 # [core]
 #    excludesfile = ~/etc/git/exclude
 
+.\#*
+.DS_Store
+.hg*
 .svn/
 *~
 \#*\#
