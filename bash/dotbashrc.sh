@@ -13,13 +13,14 @@ then
 fi
 PATH=$PATH:$USER_LIBRARY/bin
 
-
-shopt -u sourcepath     # Keep source and . commands from searching the PATH.
-shopt -s nocaseglob     # Case-insensitive filename completion
-
-
+ 
 if [ -n "$PS1" ]
 then
+    shopt -s checkwinsize
+    shopt -s no_empty_cmd_completion
+    shopt -s nocaseglob     # Case-insensitive filename completion
+    shopt -u sourcepath     # Keep source and . commands from searching PATH
+ 
     export PAGER=less
     export LESS="-FQX"
     export EDITOR=emacs
