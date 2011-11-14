@@ -8,10 +8,9 @@ Todd's Portable Config Stuff
 
 This tree is intended to be checked-out to ~/etc
 
-Start by copying:
-  * etc/bash/dotbashrc.sh to ~/.bashrc
-  * etc/emacs/dotemacs.el to ~/.emacs
-Customize those files as necessary.
+Start by symlinking:
+  * ~/.bashrc to etc/bash/dotbashrc.sh
+  * ~/.emacs  to etc/emacs/dotemacs.el
 
 Share and Enjoy!
 -- todd@toddjonker.net
@@ -39,9 +38,11 @@ to the full path to the script.
 TODO
 ====
 
-Test the bash keybindings (common.sh).  Do they work on Linux and Cygwin?
+git.sh - Generalize locating the git-completion script.
 
-Be smart about non-interactive shells, and don't load all this stuff.
+prompt.sh - some cruft for Linux that I don't understand.
+
+bindings.sh - Test and look for new ones. Do they work on Linux and Cygwin?
 
 Can ~/.subversion/config be pulled into source control too?
 
