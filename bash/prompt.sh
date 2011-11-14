@@ -39,12 +39,12 @@ elif [ "$TERM" = "emacs" ]
 then
     PS1="[\W]\$ ";
 else
-    echo hi ${USER}
-#    PS1="[\w]\$ "
 
     set-title()
     {
 	TERMINAL_WINDOW_TITLE=$*
+	# This by itself doesn't have much effect; it's used by
+	# PROMPT_COMMAND to change the title when the prompt is printed.
     }
 
     # This is convoluted since hostname -s isn't universal.
@@ -52,10 +52,14 @@ else
     
     # This magic sequence is what actually changes the terminal title.
     # We use PROMPT_COMMAND to set it every time the prompt is printed.
-    if [ "$TERM" != "linux" ] ; then
+    if [ "$TERM" != "linux" ]
+    then
+	# 2011-11-13 I don't know why \e doesn't work here:
         PROMPT_COMMAND='echo -ne "\033]0;${TERMINAL_WINDOW_TITLE}\007"'
     fi
 
-#   PS1="\[\033[1;35m\][\u@\h:\W]\$\[\033[0m\] "
-    PS1="\[\033[1;35m\][\W]\$\[\033[0m\] "
+    # This makes it easier to inject stuff into the prompt.
+    PS1_PREFIX='\[\e[1;35m\][\W'
+    PS1_SUFFIX=']\$\[\e[0m\] '
+    PS1=$PS1_PREFIX$PS1_SUFFIX
 fi
