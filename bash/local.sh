@@ -20,7 +20,7 @@ unset baseBins
 PATH=/opt/subversion/bin:"$PATH"
 
 
-USER_BASH_MODULES="bindings prompt file ssh mac seedling"
+USER_BASH_MODULES="bindings prompt file ssh mac seedling git svn"
 
 ## TEMPORARY
 alias seedling-release=~/src/seedling/bin/release-build
