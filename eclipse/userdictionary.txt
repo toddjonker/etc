@@ -1,0 +1,9 @@
+skus
+sku
+tombstoned
+tombstone
+deprecated
+remap
+remapped
+workflow
+discriminator
