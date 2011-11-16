@@ -1,9 +1,11 @@
-if [ -r /usr/local/git/contrib/completion/git-completion.bash ]
+${GIT_HOME:=/usr/local/git}
+
+if [ -r "$GIT_HOME/contrib/completion/git-completion.bash" ]
 then
     # Read this file for documentation on this tool.
     # I last read through it at git 1.7.7
 
-    source /usr/local/git/contrib/completion/git-completion.bash
+    source "$GIT_HOME/contrib/completion/git-completion.bash"
 
     GIT_PS1_SHOWDIRTYSTATE=1
     GIT_PS1_SHOWSTASHSTATE=1
