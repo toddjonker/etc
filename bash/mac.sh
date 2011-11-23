@@ -2,10 +2,6 @@ if [ -d "/System" ]
 then
     # Mac OS X
     export JAVA_HOME=/Library/Java/Home
-    #export JAVACMD=/usr/bin/java
-
-    # Initialize Fink.  This prepends /sw/bin to PATH.
-    test -r /sw/bin/init.sh && . /sw/bin/init.sh
 
     # Note that localhost doesn't work below, at least with OSXvnc 1.5
     # -T to disable pseudo-tty allocation
@@ -16,11 +12,6 @@ then
     if [ -d /usr/local/bin ]
     then
 	PATH=$PATH:/usr/local/bin
-    fi
-
-    if [ -d /usr/local/git/bin ]
-    then
-	PATH=$PATH:/usr/local/git/bin
     fi
 
     PATH=$PATH:$USER_LIBRARY/bin/mac
