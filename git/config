@@ -6,4 +6,12 @@
     excludesfile = ~/etc/git/exclude
 
 [color]
-    branch = auto
+    ui = auto
+
+[branch]
+    autosetupmerge = always
+    autosetuprebase = always
+
+[diff]
+    mnemonicprefix = true
+    renames = true

@@ -22,7 +22,7 @@ then
     shopt -u sourcepath     # Keep source and . commands from searching PATH
  
     export PAGER=less
-    export LESS="-FQX"
+    export LESS="-FQRX"
     export EDITOR=emacs
 fi
 
