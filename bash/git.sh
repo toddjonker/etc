@@ -2,9 +2,10 @@
 : ${GIT_CONTRIB:=$GIT_HOME/contrib}
 
 
-if [ -d /usr/local/git/bin ]
+if [ -d "$GIT_HOME/bin" ]
 then
-    PATH=$PATH:/usr/local/git/bin
+echo adding git to bath
+    PATH="$GIT_HOME/bin":$PATH
 fi
 
 if [ -r "$GIT_CONTRIB/completion/git-completion.bash" ]
