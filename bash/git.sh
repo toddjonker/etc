@@ -4,7 +4,6 @@
 
 if [ -d "$GIT_HOME/bin" ]
 then
-echo adding git to bath
     PATH="$GIT_HOME/bin":$PATH
 fi
 
