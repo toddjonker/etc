@@ -5,4 +5,5 @@
    <site name="Andrei Loskutov plugins site" url="http://andrei.gmxhome.de/eclipse/" web="false" selected="true" local="false"/>
    <site name="Subclipse plugins site" url="http://subclipse.tigris.org/update_1.6.x" web="false" selected="true" local="false"/>
    <site name="Emacs+" url="http://www.mulgasoft.com/emacsplus/update-site" web="false" selected="true" local="false"/>
+   <site name="Eclipse-tools.sf.net" url="http://eclipse-tools.sourceforge.net/updates/" web="false" selected="false" local="false"/>
 </bookmarks>
