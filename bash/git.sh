@@ -7,16 +7,29 @@ then
     PATH="$GIT_HOME/bin":$PATH
 fi
 
+
+# These files contain good documentation on their use.
+# I last read through it at git 1.8
+# Git 1.8 splits the prompt stuff out.
+
+
 if [ -r "$GIT_CONTRIB/completion/git-completion.bash" ]
 then
-    # Read this file for documentation on this tool.
-    # I last read through it at git 1.7.7
-
     source "$GIT_CONTRIB/completion/git-completion.bash"
+fi
 
+if [ -r "$GIT_CONTRIB/completion/git-prompt.sh" ]
+then
+    source "$GIT_CONTRIB/completion/git-prompt.sh"
+fi
+
+
+# Did we find prompt completion code?
+if (declare -F __git_ps1 >& /dev/null)
+then
     GIT_PS1_SHOWDIRTYSTATE=1
-    GIT_PS1_SHOWSTASHSTATE=1
-    GIT_PS1_SHOWUNTRACKEDFILES=1
+#   GIT_PS1_SHOWSTASHSTATE=1
+#   GIT_PS1_SHOWUNTRACKEDFILES=1
     GIT_PS1_SHOWUPSTREAM=auto
 
     PS1=$PS1_PREFIX'$(__git_ps1 " (%s)")'$PS1_SUFFIX
