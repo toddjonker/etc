@@ -12,6 +12,9 @@
     autosetupmerge = always
     autosetuprebase = always
 
+[push]
+    default = simple
+
 [diff]
     mnemonicprefix = true
     renames = true
