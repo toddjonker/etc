@@ -53,7 +53,8 @@ findr()
     # using find -exec.
 
     # Note that Linux doesn't support the options that MacOS does (eg -X)
-    find . -type f \( -not -path "*/.svn/*" \) -print0 | xargs -0 -n 1000 grep "$*"
+    find . -type f \( -not -path "*/.svn/*" \) \( -not -path "*/.git/*" \) \
+        -print0 | xargs -0 -n 1000 grep "$*"
 }
 
 find-exe()
