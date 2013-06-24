@@ -2,6 +2,8 @@
 : ${GIT_CONTRIB:=$GIT_HOME/contrib}
 
 
+# TODO this is wrong, the dir may already be in $PATH
+
 if [ -d "$GIT_HOME/bin" ]
 then
     PATH="$GIT_HOME/bin":$PATH
