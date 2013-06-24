@@ -496,7 +496,7 @@ moves point to end of line.")
 ;;;
 
 (if (boundp 'emacs-major-version)
-  (if (or (= emacs-major-version 22) (= emacs-major-version 23))
+  (if (>= emacs-major-version 22)
     (load "emacs22")
     (if (or (= emacs-major-version 20) (= emacs-major-version 21))
       (load "emacs20")
