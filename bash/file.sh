@@ -38,7 +38,6 @@ alias m=less
 #alias link	/bin/ln -s
 #alias mlink	'/bin/mv \!:1 \!:2; link \!:2 \!:1'  # move and link
 
-# look for text in elisp source files
 
 # print path in a single column
 #alias ppath echo \$path \| "awk '{for(i=1; i<=NF; i++) printf" '"%3d: %s\n", i, $i}'"'"
@@ -53,7 +52,11 @@ findr()
     # using find -exec.
 
     # Note that Linux doesn't support the options that MacOS does (eg -X)
-    find . -type f \( -not -path "*/.svn/*" \) \( -not -path "*/.git/*" \) \
+    find . -type f \
+        \( -not -path "*/.git/*" \) \
+        \( -not -path "*/.metadata/*" \) \
+        \( -not -path "*/.svn/*" \) \
+        \( -not -path "*/eclipse-bin/*" \) \
         -print0 | xargs -0 -n 1000 grep "$*"
 }
 
