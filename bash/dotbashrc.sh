@@ -31,8 +31,10 @@ fi
 ##  Host-specific stuff is loaded from the first readable file among:
 ##
 ##    ~/.bashrc-localhost
+##       -- Works well for things that don't need revision control
 ##    $BASH_LIBRARY/`hostname`.sh
 ##    $BASH_LIBRARY/local.sh
+##       -- Tends to cause revision control problems, deprecate?
 
 # If you're sharing home directories between different platforms, you probably
 # should use HOSTNAME.sh instead of .bashrc-localhost
@@ -52,6 +54,8 @@ then
     . "$BASH_LIBRARY/local.sh"
 fi
 
+
+#  TODO the interaction test needs to be pushed down into the modules.
 
 if [ -n "$PS1" ]
 then
