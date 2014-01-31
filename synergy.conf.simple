@@ -1,0 +1,14 @@
+# Very simple Synergy configuration with no keyboard mappings.
+# Should be suitable for connections using the same OS.
+
+section: screens
+  left:
+  right:
+end
+
+section: links
+  left:
+    right=right
+  right:
+    left=left
+end
