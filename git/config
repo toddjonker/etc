@@ -19,6 +19,9 @@
     mnemonicprefix = true
     renames = true
 
+[rerere]
+	enabled = true
+
 [alias]
     co   = checkout
     clm  = checkout lm
