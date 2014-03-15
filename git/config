@@ -4,6 +4,7 @@
 
 [core]
     excludesfile = ~/etc/git/exclude
+	pager = less -FMRiX
 
 [color]
     ui = auto
