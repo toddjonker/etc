@@ -1,37 +1,37 @@
 [user]
-    name = Todd V. Jonker
-    email = todd@toddjonker.net
+	name = Todd V. Jonker
+	email = todd@toddjonker.net
 
 [core]
-    excludesfile = ~/etc/git/exclude
+	excludesfile = ~/etc/git/exclude
 	pager = less -FMRiX
 
 [color]
-    ui = auto
+	ui = auto
 
 [branch]
-    autosetupmerge = always
-    autosetuprebase = always
+	autosetupmerge = always
+	autosetuprebase = always
 
 [push]
-    default = simple
+	default = simple
 
 [diff]
-    mnemonicprefix = true
-    renames = true
+	mnemonicprefix = true
+	renames = true
 
 [rerere]
 	enabled = true
 
 [alias]
-    co   = checkout
-    clm  = checkout lm
-    lol  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    lola = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
-    dag  = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-    daga = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order --all
-    skip = rebase --skip
-    s    = status
+	co   = checkout
+	clm  = checkout lm
+	lol  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lola = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+	dag  = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+	daga = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order --all
+	skip = rebase --skip
+	s    = status
 
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
