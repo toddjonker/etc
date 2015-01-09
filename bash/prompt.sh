@@ -47,6 +47,13 @@ else
 	# PROMPT_COMMAND to change the title when the prompt is printed.
     }
 
+    st.()
+    {
+        set-title $(basename $(pwd))
+    }
+
+    alias st=set-title
+    
     # This is convoluted since hostname -s isn't universal.
     set-title "${USER}@`hostname | cut -d . -f 1`"
     
