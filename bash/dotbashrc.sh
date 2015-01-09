@@ -3,9 +3,9 @@
 ##  See .bash_profile for code that is run only on first login.
 
 
-# Don't quote this, or the ~ won't expand:
-USER_LIBRARY=~/etc
-BASH_LIBRARY="${USER_LIBRARY}/bash"
+USER_LIBRARY=${USER_LIBRARY:-~/etc}
+BASH_LIBRARY=${USER_LIBRARY}/bash
+
 
 if [ -e ~/bin ]
 then
