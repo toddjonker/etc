@@ -55,7 +55,15 @@ else
     alias st=set-title
     
     # This is convoluted since hostname -s isn't universal.
-    set-title "${USER}@`hostname | cut -d . -f 1`"
+    TVJ_DISPLAY_HOSTNAME=${TVJ_DISPLAY_HOSTNAME:-$(hostname | cut -d . -f 1)}
+
+    reset-title()
+    {
+        set-title "${USER}@${TVJ_DISPLAY_HOSTNAME:-`hostname`}"
+    }
+
+    reset-title
+
     
     # This magic sequence is what actually changes the terminal title.
     # We use PROMPT_COMMAND to set it every time the prompt is printed.
