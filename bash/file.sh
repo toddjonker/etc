@@ -74,4 +74,13 @@ cleansrc()
 	-exec /bin/rm {} \;
 }
 
+
+webhere()
+{
+    port=3000
+    echo Starting server:  http://$(hostname):$port/
+    ruby -run -ehttpd . -p $port
+}
+
+
 ##  EOF  ##
