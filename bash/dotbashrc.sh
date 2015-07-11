@@ -7,6 +7,8 @@ USER_LIBRARY=${USER_LIBRARY:-~/etc}
 BASH_LIBRARY=${USER_LIBRARY}/bash
 
 
+# TODO Should swap this so ~/bin precedes ~/etc/bin
+#      That allows one to override binaries in the shared bin.
 if [ -e ~/bin ]
 then
     PATH=$PATH:~/bin
@@ -23,7 +25,7 @@ then
  
     export PAGER=less
     export LESS="-FQRX"
-    export EDITOR=emacs
+    export EDITOR=emacs     # TODO This shouldn't be here.
 fi
 
 

@@ -11,6 +11,7 @@ This tree is intended to be checked-out to ~/etc
 Start by symlinking:
   * ~/.bashrc to etc/bash/dotbashrc.sh
   * ~/.emacs  to etc/emacs/dotemacs.el
+  * ~/.gitconfig to etc/git/config
 
 Share and Enjoy!
 -- todd@toddjonker.net
