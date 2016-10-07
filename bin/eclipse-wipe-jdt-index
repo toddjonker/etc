@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+if [ ! -d .metadata ];
+then
+    echo 'This must be run from an Eclipse workspace directory.'
+    exit 1
+fi
+
+cd '.metadata/.plugins/org.eclipse.jdt.core'
+
+/bin/rm -f *.index
+/bin/rm -f savedIndexNames.txt
+
+echo 'Wiped it!'
