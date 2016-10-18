@@ -52,7 +52,7 @@ findr()
     # using find -exec.
 
     # Note that Linux doesn't support the options that MacOS does (eg -X)
-    find . -L -type f \
+    find -L . -type f \
         \( -not -path "*/.git/*" \) \
         \( -not -path "*/.metadata/*" \) \
         \( -not -path "*/.svn/*" \) \
