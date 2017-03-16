@@ -10,6 +10,7 @@ then
 
     PATH=$PATH:$USER_LIBRARY/bin/mac
 
+    alias oe="open -a Emacs"
 
     alias ost="open -a SourceTree"
     alias ost.="open -a SourceTree ."
