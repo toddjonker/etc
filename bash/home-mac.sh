@@ -16,7 +16,7 @@ done
 unset baseBins
 
 
-USER_BASH_MODULES="bindings prompt file ssh mac seedling git svn"
+USER_BASH_MODULES="mac bindings prompt file ssh seedling git svn"
 
 ## TEMPORARY
 alias seedling-release=~/src/seedling/bin/release-build

@@ -1,5 +1,6 @@
 : ${GIT_HOME:=/usr/local/git}
 : ${GIT_CONTRIB:=$GIT_HOME/contrib}
+: ${GIT_COMPLETION:=$GIT_CONTRIB/completion}
 
 
 # TODO this is wrong, the dir may already be in $PATH
@@ -15,14 +16,14 @@ fi
 # Git 1.8 splits the prompt stuff out.
 
 
-if [ -r "$GIT_CONTRIB/completion/git-completion.bash" ]
+if [ -r "$GIT_COMPLETION/git-completion.bash" ]
 then
-    source "$GIT_CONTRIB/completion/git-completion.bash"
+    source "$GIT_COMPLETION/git-completion.bash"
 fi
 
-if [ -r "$GIT_CONTRIB/completion/git-prompt.sh" ]
+if [ -r "$GIT_COMPLETION/git-prompt.sh" ]
 then
-    source "$GIT_CONTRIB/completion/git-prompt.sh"
+    source "$GIT_COMPLETION/git-prompt.sh"
 fi
 
 
@@ -37,4 +38,4 @@ then
     PS1=$PS1_PREFIX'$(__git_ps1 " (%s)")'$PS1_SUFFIX
 fi
 
-unset GIT_HOME GIT_CONTRIB
+unset GIT_HOME GIT_CONTRIB GIT_COMPLETION
