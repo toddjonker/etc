@@ -69,8 +69,8 @@ else
     # We use PROMPT_COMMAND to set it every time the prompt is printed.
     if [ "$TERM" != "linux" ]
     then
-	# 2011-11-13 I don't know why \e doesn't work here:
-        PROMPT_COMMAND='echo -ne "\033]0;${TERMINAL_WINDOW_TITLE}\007"'
+        # Be careful to preserve ITerm2 integration command.
+        PROMPT_COMMAND='echo -ne "\033]0;${TERMINAL_WINDOW_TITLE}\007"; '"$PROMPT_COMMAND";
     fi
 
     # This makes it easier to inject stuff into the prompt.
