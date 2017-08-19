@@ -1,0 +1,16 @@
+# .gitconfig for use on Macs
+
+[include]
+	path = ~/etc/git/config
+
+# https://help.github.com/articles/caching-your-github-password-in-git/
+[credential]
+	helper = osxkeychain
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
