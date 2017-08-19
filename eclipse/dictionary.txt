@@ -23,3 +23,10 @@ unboxing
 foo
 trellis
 download
+refactoring
+quasiquote
+quasisyntax
+unsyntax
+unquote
+namespace
+timestamp
