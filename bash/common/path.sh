@@ -4,6 +4,8 @@ ss_log "[path] entry PATH=$PATH"
 
 # Taken from /etc/profile
 pathmunge () {
+    ss_log "[path] pathmunge" "$@"
+    
     case ":${PATH}:" in
         *:"$1":*)
             ;;

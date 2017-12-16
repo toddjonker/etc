@@ -2,12 +2,9 @@
 : ${GIT_CONTRIB:=$GIT_HOME/contrib}
 : ${GIT_COMPLETION:=$GIT_CONTRIB/completion}
 
-
-# TODO this is wrong, the dir may already be in $PATH
-
 if [ -d "$GIT_HOME/bin" ]
 then
-    PATH="$GIT_HOME/bin":$PATH
+    pathmunge "$GIT_HOME/bin" before
 fi
 
 

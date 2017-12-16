@@ -1,12 +1,6 @@
 ##  This file should be sourced from ~/.bashrc
 
 
-## TODO
-##
-##  * Add notion of libraries, so one can override things.
-##    Then a host will select a set of libraries to use.
-
-
 USER_LIBRARY=${USER_LIBRARY:-~/etc}
 [[ -r "$USER_LIBRARY" ]] || echo Bad USER_LIBRARY=$USER_LIBRARY
 
@@ -33,11 +27,11 @@ function ss_log()
 {
     if [[ -n "$SHELLSEED_LOG" ]]
     then
-	echo "$@" >> "$SHELLSEED_LOG"
+	echo "$_SS_LOG_PREFIX$@" >> "$SHELLSEED_LOG"
     fi
 }
 
-ss_unset_later ss_log SHELLSEED_LOG
+ss_unset_later ss_log SHELLSEED_LOG _SS_LOG_PREFIX
 
 ss_log "---------------------"
 ss_log $(date)
@@ -46,23 +40,82 @@ ss_log $(date)
 #------------------------------------------------------------------------------
 # Module loading
 
-if [ -n "$PS1" ]
-then
-    SHELLSEED_MODULES=${SHELLSEED_MODULES:-${SHELLSEED_INTERACTIVE_MODULES:-interactive}}
-else
-    SHELLSEED_MODULES=${SHELLSEED_MODULES:-batch}
-fi
+declare -a _SS_LIBRARIES
 
-ss_unset_later SHELLSEED_MODULES SHELLSEED_INTERACTIVE_MODULES
+function shellseed_use_libraries()
+{
+    local libname=$1; shift
 
+    if [[ $# -ne 0 ]]
+    then
+        shellseed_use_libraries "$@"
+    fi
+
+    case " ${_SS_LIBRARIES[@]} " in
+	*" $libname "*)
+	    ss_log "Already registered $libname"
+	    ;;
+	*)
+	    ss_log "Registering $libname"
+
+            local libdir=$BASH_LIBRARY/$libname
+            if [[ -d $libdir ]]
+            then
+                local libfile=$libdir/use-libraries
+                if [[ -f $libfile ]]
+                then
+                    shellseed_use_libraries $(cat "$libfile")
+                fi
+                
+	        _SS_LIBRARIES=($libname ${_SS_LIBRARIES[@]})
+            else
+                ss_log "ERROR: No library named $libname in $BASH_LIBRARY"
+            fi
+            ;;
+    esac
+}
+
+ss_unset_later shellseed_use_libraries _SS_LIBRARIES
+
+
+function ss_source_next()
+{
+    # This uses global variables to make it easy on the user.
+
+    while (( $_SS_CURRENT_LIBRARY < ${#_SS_LIBRARIES[*]} ))
+    do
+        local libname=${_SS_LIBRARIES[$_SS_CURRENT_LIBRARY]}
+
+        _SS_CURRENT_LIBRARY=$(( $_SS_CURRENT_LIBRARY + 1 ))            
+
+        ss_log "Looking for $_SS_LOADING_MODULE in $libname"
+
+        local libfile=$libname/$_SS_LOADING_MODULE.sh
+        if [[ -f $BASH_LIBRARY/$libfile ]]
+        then
+            ss_log "Sourcing $libfile"
+
+            local prior_prefix=$_SS_LOG_PREFIX
+            _SS_LOG_PREFIX="> $_SS_LOG_PREFIX"
+            
+	    . "$BASH_LIBRARY/$libfile"
+
+            _SS_LOG_PREFIX=$prior_prefix
+            return
+        fi
+    done
+
+    return 1
+}
 
 function ss_load_modules()
 {
+    ss_log "ss_load_modules $@"
+    
     # _SS_LOADED_MODULES is colon-separated list of modules.
     # To break (but not detect) cycles, modules are added before being loaded.
 
     local modname
-
     for modname in "$@"
     do
 	case ":${_SS_LOADED_MODULES}:" in
@@ -70,21 +123,52 @@ function ss_load_modules()
 		ss_log "Already loaded $modname"
 	        ;;
 	    *)
+                ss_log "Seeking script $modname"
+                
 		_SS_LOADED_MODULES=$_SS_LOADED_MODULES:$modname
 
-		ss_log "Loading $modname"
+                local prior_modname=$_SS_LOADING_MODULE
+                _SS_LOADING_MODULE=$modname
 
-		# TODO Define SHELLSEED_LOADING_MODULE
-		#  being careful to handle the recursive case
+                local prior_current=$_SS_CURRENT_LIBRARY
+                _SS_CURRENT_LIBRARY=0
+                
+                if ! ss_source_next
+                then
+                    ss_log "ERROR: No module named $modname"
+                fi
 
-		. "$BASH_LIBRARY/$modname.sh"
+                _SS_LOADING_MODULE=$prior_modname
+                _SS_CURRENT_LIBRARY=$prior_current
 	esac
     done
 }
 
-ss_unset_later ss_load_modules _SS_LOADED_MODULES
+ss_unset_later ss_load_modules ss_source_next
+ss_unset_later _SS_CURRENT_LIBRARY _SS_LOADED_MODULES _SS_LOADING_MODULE
 
 
-ss_load_modules ${SHELLSEED_MODULES}
 
-unset $_SS_UNSET_LATER
+function shellseed_init()
+{
+    ss_log "Initializing modules: $@"
+    ss_log "Effective libraries: ${_SS_LIBRARIES[@]}"
+
+    local modules=$@
+    
+    if [[ -z $modules ]]
+    then
+        if [[ -n $PS1 ]]
+        then
+            modules=interactive
+        else
+            modules=batch
+        fi
+    fi
+    
+    ss_load_modules $modules
+
+    # All done! Remove our stuff from the environment.
+    unset $_SS_UNSET_LATER
+    unset shellseed_init
+}
