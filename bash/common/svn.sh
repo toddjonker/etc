@@ -30,10 +30,6 @@ alias svn-exe-unset='svn propdel svn:executable'
 alias svn-diff='svn diff --diff-cmd /usr/bin/diff -x '\''--side-by-side --left-column --ignore-all-space --width=159'\'''
 
 
-#alias svn-tunnel-cc='ssh -L 3690:svn.consciouscode.com:3690 todd@svn.consciouscode.com'
-
-
-
 ##
 ##  Display the SVN URL of the current directory or a given file.
 ##
