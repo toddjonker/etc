@@ -21,3 +21,5 @@ if [[ $ITERM_SESSION_ID && -f ~/.iterm2_shell_integration.bash ]]
 then
     source ~/.iterm2_shell_integration.bash
 fi
+
+source /usr/local/etc/bash_completion.d/brew
