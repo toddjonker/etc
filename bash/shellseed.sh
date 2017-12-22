@@ -1,10 +1,20 @@
-##  This file should be sourced from ~/.bashrc
+###   Copyright (C) 2017 Todd V. Jonker.  All Rights Reserved.
+###
+###   Licensed under the Apache License, Version 2.0 (the "License");
+###   you may not use this file except in compliance with the License.
+###   You may obtain a copy of the License at
+###
+###       http://www.apache.org/licenses/LICENSE-2.0
+###
+###   Unless required by applicable law or agreed to in writing, software
+###   distributed under the License is distributed on an "AS IS" BASIS,
+###   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+###   See the License for the specific language governing permissions and
+###   limitations under the License.
 
 
 USER_LIBRARY=${USER_LIBRARY:-~/etc}
 [[ -r "$USER_LIBRARY" ]] || echo Bad USER_LIBRARY=$USER_LIBRARY
-
-BASH_LIBRARY=${USER_LIBRARY}/bash
 
 
 #------------------------------------------------------------------------------
@@ -40,6 +50,9 @@ ss_log $(date)
 #------------------------------------------------------------------------------
 # Module loading
 
+
+_SS_LIBRARY_ROOT=${USER_LIBRARY}/bash
+
 declare -a _SS_LIBRARIES
 
 function shellseed_use_libraries()
@@ -58,7 +71,7 @@ function shellseed_use_libraries()
 	*)
 	    ss_log "Registering $libname"
 
-            local libdir=$BASH_LIBRARY/$libname
+            local libdir=$_SS_LIBRARY_ROOT/$libname
             if [[ -d $libdir ]]
             then
                 local libfile=$libdir/use-libraries
@@ -69,13 +82,13 @@ function shellseed_use_libraries()
                 
 	        _SS_LIBRARIES=($libname ${_SS_LIBRARIES[@]})
             else
-                ss_log "ERROR: No library named $libname in $BASH_LIBRARY"
+                ss_log "ERROR: No library named $libname in $_SS_LIBRARY_ROOT"
             fi
             ;;
     esac
 }
 
-ss_unset_later shellseed_use_libraries _SS_LIBRARIES
+ss_unset_later shellseed_use_libraries _SS_LIBRARIES _SS_LIBRARY_ROOT
 
 
 function ss_source_next()
@@ -91,14 +104,14 @@ function ss_source_next()
         ss_log "Looking for $_SS_LOADING_MODULE in $libname"
 
         local libfile=$libname/$_SS_LOADING_MODULE.sh
-        if [[ -f $BASH_LIBRARY/$libfile ]]
+        if [[ -f $_SS_LIBRARY_ROOT/$libfile ]]
         then
             ss_log "Sourcing $libfile"
 
             local prior_prefix=$_SS_LOG_PREFIX
             _SS_LOG_PREFIX="> $_SS_LOG_PREFIX"
             
-	    . "$BASH_LIBRARY/$libfile"
+	    . "$_SS_LIBRARY_ROOT/$libfile"
 
             _SS_LOG_PREFIX=$prior_prefix
             return
