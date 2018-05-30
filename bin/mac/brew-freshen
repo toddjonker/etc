@@ -1,0 +1,19 @@
+#!/bin/bash -eu
+
+## HomeBrew -- The missing package manager for macOS
+##   https://brew.sh
+##
+## What is the difference between 'brew' and 'brew cask'?
+##   https://apple.stackexchange.com/questions/125468
+
+
+brew update
+brew upgrade
+brew cleanup
+
+updated=$(brew cask outdated --quiet)
+if [ $updated ];
+then
+    brew cask reinstall $updated
+fi
+echo "Done. Homebrew content is up to date."
