@@ -1,4 +1,4 @@
-###   Copyright (C) 2017 Todd V. Jonker.  All Rights Reserved.
+###   Copyright (C) 2017-2020 Todd V. Jonker.  All Rights Reserved.
 ###
 ###   Licensed under the Apache License, Version 2.0 (the "License");
 ###   you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ ss_log $(date)
 #------------------------------------------------------------------------------
 # Module loading
 
-
+# TODO This should be a command-line argument.
 _SS_LIBRARY_ROOT=${USER_LIBRARY}/bash
 
 declare -a _SS_LIBRARIES
@@ -69,7 +69,7 @@ function shellseed_use_libraries()
 	    ss_log "Already registered $libname"
 	    ;;
 	*)
-	    ss_log "Registering $libname"
+	    ss_log "Registering library $libname"
 
             local libdir=$_SS_LIBRARY_ROOT/$libname
             if [[ -d $libdir ]]
@@ -164,10 +164,10 @@ ss_unset_later _SS_CURRENT_LIBRARY _SS_LOADED_MODULES _SS_LOADING_MODULE
 
 function shellseed_init()
 {
-    ss_log "Initializing modules: $@"
     ss_log "Effective libraries: ${_SS_LIBRARIES[@]}"
 
     local modules=$@
+    ss_log "Requested modules: $modules"
     
     if [[ -z $modules ]]
     then
@@ -185,3 +185,43 @@ function shellseed_init()
     unset $_SS_UNSET_LATER
     unset shellseed_init
 }
+
+
+function _ss_parse_args()
+{
+    local libs mods o
+
+    while getopts ":l:m:h" o; do
+        case "$o" in
+            h) _ss_usage; return;;
+            l) libs="$libs $OPTARG";;
+            m) mods="$mods $OPTARG";;
+            *) echo [shellseed] illegal option -$OPTARG; _ss_usage; return;;
+        esac
+    done
+    shift $((OPTIND-1))
+    unset OPTIND
+
+    shellseed_use_libraries ${libs:-common}
+    shellseed_init $mods
+}
+ss_unset_later _ss_parse_args
+
+
+function _ss_usage()
+{
+    echo
+    echo "Usage: . shellseed.sh [-l LIBRARY] [-m MODULE]"
+    echo
+    echo "Loads the given modules from the libraries."
+    echo "The -l and -m options may be given multiple times."
+    echo "When no library is specified, the default is \"common\"."
+    echo "When no modules are requested, then either \"interactive\" or \"batch\" is loaded,"
+    echo "depending on the shell's status."
+}
+ss_unset_later _ss_usage
+
+
+# When arguments are given, parse them.
+# Otherwise, assume explicit use of shellseed_init.
+[[ -n $@ ]] && _ss_parse_args "$@"
