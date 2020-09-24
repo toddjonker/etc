@@ -16,10 +16,13 @@ alias ost="open -a SourceTree"
 alias ost.="open -a SourceTree ."
 
 
-# https://www.iterm2.com/documentation-shell-integration.html
-if [[ $ITERM_SESSION_ID && -f ~/.iterm2_shell_integration.bash ]]
+if [[ $ITERM_SESSION_ID ]]
 then
-    source ~/.iterm2_shell_integration.bash
+    # https://www.iterm2.com/documentation-shell-integration.html
+    test -f ~/.iterm2_shell_integration.bash && source ~/.iterm2_shell_integration.bash
+
+    # https://iterm2.com/documentation-utilities.html
+    test -d ~/.iterm2 && pathmunge ~/.iterm2 after
 fi
 
 source /usr/local/etc/bash_completion.d/brew
