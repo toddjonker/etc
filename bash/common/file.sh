@@ -45,6 +45,17 @@ alias m=less
 
 findr()
 {
+    local o OPTARG OPTIND OPTERR
+    local location=.
+
+    while getopts ":L:" o; do
+        case "$o" in
+            L) location="$OPTARG";;
+            *) ;;        # Ignore unrecognized options
+        esac
+    done
+    shift $((OPTIND-1))
+
     # New version via mtoulou@amazon.com
     # Using find -print0 and xargs -0 allows this to work with files with
     # spaces (and even newlines) in their names.
@@ -52,7 +63,8 @@ findr()
     # using find -exec.
 
     # Note that Linux doesn't support the options that MacOS does (eg -X)
-    find -L . -type f \
+    find -L "$location" \
+        -type f \
         \( -not -path "*/.git/*" \) \
         \( -not -path "*/.metadata/*" \) \
         \( -not -path "*/.svn/*" \) \
