@@ -9,11 +9,5 @@
 
 brew update
 brew upgrade
-brew cleanup
 
-updated=$(brew cask outdated --quiet)
-if [ $updated ];
-then
-    brew cask reinstall $updated
-fi
 echo "Done. Homebrew content is up to date."
