@@ -37,6 +37,6 @@ fi
 
 unset GIT_HOME GIT_CONTRIB GIT_COMPLETION
 
-alias cm="git cm"
+alias sm="git sm"
 alias p="git pull --ff-only"
 alias s="git status"
