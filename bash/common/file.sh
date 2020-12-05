@@ -1,9 +1,4 @@
-###   tjonker's aliases file                                 -*-shell-script-*-
-###
-###   All machines should source this file to set up standard aliases.
-###
-###   This was last tested using GNU bash 2.05.0
-
+# -*-shell-script-*-
 
 # Make some commands a bit more safe
 alias rm='rm -i'
@@ -46,12 +41,15 @@ alias m=less
 findr()
 {
     local o OPTARG OPTIND OPTERR
-    local location=.
+    local from=
 
-    while getopts ":L:" o; do
+    # FreeBSD/macOS supports -f and requires a path.
+    # Linux doesn't support -f and uses a default path of .
+    # This adaptation does both.
+    while getopts ":f:" o; do
         case "$o" in
-            L) location="$OPTARG";;
-            *) ;;        # Ignore unrecognized options
+            f) from="$from $OPTARG";;
+            *) ;;                      # Other options are passed through to grep
         esac
     done
     shift $((OPTIND-1))
@@ -62,8 +60,10 @@ findr()
     # It also greps 1000 files at a time, so it's a fair bit faster than
     # using find -exec.
 
-    # Note that Linux doesn't support the options that MacOS does (eg -X)
-    find -L "$location" \
+    # -L tells find to traverse symlinks.
+    # $from is intentionally unquoted to allow multiple -f paths.
+    find -L \
+        ${from:-.} \
         -type f \
         \( -not -path "*/.git/*" \) \
         \( -not -path "*/.metadata/*" \) \
