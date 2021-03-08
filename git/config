@@ -16,6 +16,9 @@
 [push]
 	default = simple
 
+[rebase]
+	autoStash = true
+
 [diff]
 	mnemonicprefix = true
 	renames = true
