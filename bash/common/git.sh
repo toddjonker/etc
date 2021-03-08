@@ -40,3 +40,4 @@ unset GIT_HOME GIT_CONTRIB GIT_COMPLETION
 alias sm="git sm"
 alias p="git pull --ff-only"
 alias s="git status"
+alias smp="git sm && git pull --ff-only"
