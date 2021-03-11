@@ -15,11 +15,13 @@ fi
 
 if [ -r "$GIT_COMPLETION/git-completion.bash" ]
 then
+    ss_log Sourcing "$GIT_COMPLETION/git-completion.bash"
     source "$GIT_COMPLETION/git-completion.bash"
 fi
 
 if [ -r "$GIT_COMPLETION/git-prompt.sh" ]
 then
+    ss_log Sourcing "$GIT_COMPLETION/git-prompt.bash"
     source "$GIT_COMPLETION/git-prompt.sh"
 fi
 
