@@ -63,7 +63,7 @@ findr()
     # -L tells find to traverse symlinks.
     # $from is intentionally unquoted to allow multiple -f paths.
     find -L \
-        ${from:-.} \
+        "${from:-.}" \
         -type f \
         \( -not -path "*/.git/*" \) \
         \( -not -path "*/.metadata/*" \) \
@@ -90,7 +90,7 @@ cleansrc()
 webhere()
 {
     port=3000
-    echo Starting server:  http://$(hostname):$port/
+    echo "Starting server:  http://$(hostname):$port/"
     ruby -run -ehttpd . -p $port
 }
 

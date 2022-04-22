@@ -1,6 +1,6 @@
-: ${GIT_HOME:=/usr/local/git}
-: ${GIT_CONTRIB:=$GIT_HOME/contrib}
-: ${GIT_COMPLETION:=$GIT_CONTRIB/completion}
+: "${GIT_HOME:=/usr/local/git}"
+: "${GIT_CONTRIB:=$GIT_HOME/contrib}"
+: "${GIT_COMPLETION:=$GIT_CONTRIB/completion}"
 
 if [ -d "$GIT_HOME/bin" ]
 then

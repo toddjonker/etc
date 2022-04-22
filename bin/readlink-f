@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -o errexit  # Exit the script if any statement returns a non-true return value.
+set -o nounset  # Exit script if any uninitialised variable is used.
+set -o pipefail # Fail if commands fail as part of a pipeline.
+
+
 # https://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
 
 if [[ $OSTYPE == darwin* ]];
@@ -21,7 +26,7 @@ then
     # for the directory we're in and appending the target file.
     PHYS_DIR=$(pwd -P)
     RESULT="$PHYS_DIR/$TARGET_FILE"
-    echo $RESULT
+    echo "$RESULT"
 else
     exec readlink -f "$@"
 fi

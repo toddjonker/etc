@@ -1,3 +1,7 @@
+# Avoid warnings per https://github.com/koalaman/shellcheck/wiki/SC1090
+# shellcheck source=/dev/null
+
+
 if [[ ! -d "/System" ]]
 then
     echo "ERROR! Not on a Mac, shouldn't be loading Mac module"

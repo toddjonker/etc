@@ -1,4 +1,4 @@
-###   Copyright (C) 2017-2020 Todd V. Jonker.  All Rights Reserved.
+###   Copyright (C) 2017-2022 Todd V. Jonker.  All Rights Reserved.
 ###
 ###   Licensed under the Apache License, Version 2.0 (the "License");
 ###   you may not use this file except in compliance with the License.
@@ -37,14 +37,14 @@ function ss_log()
 {
     if [[ -n "$SHELLSEED_LOG" ]]
     then
-	echo "$_SS_LOG_PREFIX$@" >> "$SHELLSEED_LOG"
+      echo "$_SS_LOG_PREFIX$@" >> "$SHELLSEED_LOG"
     fi
 }
 
 ss_unset_later ss_log SHELLSEED_LOG _SS_LOG_PREFIX
 
 ss_log "---------------------"
-ss_log $(date)
+ss_log "$(date)"
 
 
 #------------------------------------------------------------------------------
@@ -65,11 +65,11 @@ function shellseed_use_libraries()
     fi
 
     case " ${_SS_LIBRARIES[@]} " in
-	*" $libname "*)
-	    ss_log "Already registered $libname"
-	    ;;
-	*)
-	    ss_log "Registering library $libname"
+        *" $libname "*)
+            ss_log "Already registered $libname"
+            ;;
+        *)
+            ss_log "Registering library $libname"
 
             local libdir=$_SS_LIBRARY_ROOT/$libname
             if [[ -d $libdir ]]
@@ -77,10 +77,11 @@ function shellseed_use_libraries()
                 local libfile=$libdir/use-libraries
                 if [[ -f $libfile ]]
                 then
+                    # shellcheck disable=SC2046
                     shellseed_use_libraries $(cat "$libfile")
                 fi
-                
-	        _SS_LIBRARIES=($libname ${_SS_LIBRARIES[@]})
+
+                _SS_LIBRARIES=("$libname" ${_SS_LIBRARIES[@]})
             else
                 ss_log "ERROR: No library named $libname in $_SS_LIBRARY_ROOT"
             fi
@@ -111,7 +112,8 @@ function ss_source_next()
             local prior_prefix=$_SS_LOG_PREFIX
             _SS_LOG_PREFIX="> $_SS_LOG_PREFIX"
             
-	    . "$_SS_LIBRARY_ROOT/$libfile"
+            # shellcheck disable=SC1090
+            . "$_SS_LIBRARY_ROOT/$libfile"
 
             _SS_LOG_PREFIX=$prior_prefix
             return
@@ -131,21 +133,21 @@ function ss_load_modules()
     local modname
     for modname in "$@"
     do
-	case ":${_SS_LOADED_MODULES}:" in
-	    *:"$modname":*)
-		ss_log "Already loaded $modname"
-	        ;;
-	    *)
+        case ":${_SS_LOADED_MODULES}:" in
+            *:"$modname":*)
+                ss_log "Already loaded $modname"
+                ;;
+            *)
                 ss_log "Seeking script $modname"
-                
-		_SS_LOADED_MODULES=$_SS_LOADED_MODULES:$modname
+
+                _SS_LOADED_MODULES=$_SS_LOADED_MODULES:$modname
 
                 local prior_modname=$_SS_LOADING_MODULE
                 _SS_LOADING_MODULE=$modname
 
                 local prior_current=$_SS_CURRENT_LIBRARY
                 _SS_CURRENT_LIBRARY=0
-                
+
                 if ! ss_source_next
                 then
                     ss_log "ERROR: No module named $modname"
@@ -153,7 +155,7 @@ function ss_load_modules()
 
                 _SS_LOADING_MODULE=$prior_modname
                 _SS_CURRENT_LIBRARY=$prior_current
-	esac
+        esac
     done
 }
 

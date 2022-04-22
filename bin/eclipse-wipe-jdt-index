@@ -9,7 +9,7 @@ fi
 
 cd '.metadata/.plugins/org.eclipse.jdt.core'
 
-/bin/rm -f *.index
+/bin/rm -f ./*.index
 /bin/rm -f savedIndexNames.txt
 
 echo 'Wiped it!'

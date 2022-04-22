@@ -49,7 +49,7 @@ else
 
     st.()
     {
-        set-title $(basename $(pwd))
+        set-title "$(basename "$(pwd)")"
     }
 
     alias st=set-title
@@ -59,7 +59,7 @@ else
 
     reset-title()
     {
-        set-title "${USER}@${TVJ_DISPLAY_HOSTNAME:-`hostname`}"
+        set-title "${USER}@${TVJ_DISPLAY_HOSTNAME:-$(hostname)}"
     }
 
     reset-title
