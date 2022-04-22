@@ -45,6 +45,7 @@ ss_unset_later ss_log SHELLSEED_LOG _SS_LOG_PREFIX
 
 ss_log "---------------------"
 ss_log "$(date)"
+ss_log "Current PATH=$PATH"
 
 
 #------------------------------------------------------------------------------
