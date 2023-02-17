@@ -1,4 +1,4 @@
-###   Copyright (C) 2017-2022 Todd V. Jonker.  All Rights Reserved.
+###   Copyright (C) 2017-2023 Todd V. Jonker.  All Rights Reserved.
 ###
 ###   Licensed under the Apache License, Version 2.0 (the "License");
 ###   you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 
 USER_LIBRARY=${USER_LIBRARY:-~/etc}
-[[ -r "$USER_LIBRARY" ]] || echo Bad USER_LIBRARY=$USER_LIBRARY
+[[ -r "$USER_LIBRARY" ]] || echo "Bad USER_LIBRARY=$USER_LIBRARY"
 
 
 #------------------------------------------------------------------------------
@@ -24,7 +24,8 @@ function ss_unset_later()
 {
     # This is a space-separated list of shell items to be unset
     # at the end of the setup process.
-    _SS_UNSET_LATER="$_SS_UNSET_LATER ""$@"
+    local IFS=' '
+    _SS_UNSET_LATER="$_SS_UNSET_LATER $*"
 }
 
 ss_unset_later ss_unset_later _SS_UNSET_LATER
@@ -37,7 +38,8 @@ function ss_log()
 {
     if [[ -n "$SHELLSEED_LOG" ]]
     then
-      echo "$_SS_LOG_PREFIX$@" >> "$SHELLSEED_LOG"
+      local IFS=' '
+      echo "$_SS_LOG_PREFIX$*" >> "$SHELLSEED_LOG"
     fi
 }
 
@@ -82,7 +84,7 @@ function shellseed_use_libraries()
                     shellseed_use_libraries $(cat "$libfile")
                 fi
 
-                _SS_LIBRARIES=("$libname" ${_SS_LIBRARIES[@]})
+                _SS_LIBRARIES=("$libname" "${_SS_LIBRARIES[@]}")
             else
                 ss_log "ERROR: No library named $libname in $_SS_LIBRARY_ROOT"
             fi
@@ -97,11 +99,11 @@ function ss_source_next()
 {
     # This uses global variables to make it easy on the user.
 
-    while (( $_SS_CURRENT_LIBRARY < ${#_SS_LIBRARIES[*]} ))
+    while (( _SS_CURRENT_LIBRARY < ${#_SS_LIBRARIES[*]} ))
     do
         local libname=${_SS_LIBRARIES[$_SS_CURRENT_LIBRARY]}
 
-        _SS_CURRENT_LIBRARY=$(( $_SS_CURRENT_LIBRARY + 1 ))            
+        _SS_CURRENT_LIBRARY=$(( _SS_CURRENT_LIBRARY + 1 ))
 
         ss_log "Looking for $_SS_LOADING_MODULE in $libname"
 
@@ -126,7 +128,7 @@ function ss_source_next()
 
 function ss_load_modules()
 {
-    ss_log "ss_load_modules $@"
+    ss_log "ss_load_modules" "$@"
     
     # _SS_LOADED_MODULES is colon-separated list of modules.
     # To break (but not detect) cycles, modules are added before being loaded.
@@ -167,18 +169,19 @@ ss_unset_later _SS_CURRENT_LIBRARY _SS_LOADED_MODULES _SS_LOADING_MODULE
 
 function shellseed_init()
 {
-    ss_log "Effective libraries: ${_SS_LIBRARIES[@]}"
+    ss_log "Effective libraries:" "${_SS_LIBRARIES[@]}"
 
-    local modules=$@
+    local IFS=' '
+    local modules="$*"
     ss_log "Requested modules: $modules"
     
     if [[ -z $modules ]]
     then
         if [[ -n $PS1 ]]
         then
-            modules=interactive
+            modules="interactive"
         else
-            modules=batch
+            modules="batch"
         fi
     fi
     
@@ -199,7 +202,7 @@ function _ss_parse_args()
             h) _ss_usage; return;;
             l) libs="$libs $OPTARG";;
             m) mods="$mods $OPTARG";;
-            *) echo [shellseed] illegal option -$OPTARG; _ss_usage; return;;
+            *) echo "[shellseed] illegal option -$OPTARG"; _ss_usage; return;;
         esac
     done
     shift $((OPTIND-1))
@@ -226,5 +229,5 @@ ss_unset_later _ss_usage
 
 
 # When arguments are given, parse them.
-# Otherwise, assume explicit use of shellseed_init.
-[[ -n $@ ]] && _ss_parse_args "$@"
+# Otherwise, assume the caller will invoke shellseed_init later.
+[[ -n "$*" ]] && _ss_parse_args "$@"
