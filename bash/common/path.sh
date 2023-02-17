@@ -30,3 +30,8 @@ if [[ -e ~/bin ]]
 then
     pathmunge ~/bin before
 fi
+
+if [[ -e ~/.cargo/env ]]
+then
+    source ~/.cargo/env
+fi
