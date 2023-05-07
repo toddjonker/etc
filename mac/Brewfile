@@ -1,0 +1,7 @@
+tap "homebrew/bundle"
+tap "microsoft/git"
+brew "git"
+brew "gradle"
+brew "maven"
+brew "tree"
+cask "git-credential-manager-core"
