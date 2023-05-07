@@ -36,4 +36,4 @@
 	lola = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
 	s    = status
 	skip = rebase --skip
-	sm   = checkout master
+	sm   = switch main
