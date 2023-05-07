@@ -10,4 +10,4 @@ export LESS="-FQRX"
 export EDITOR=emacs     # TODO This shouldn't be here.
 
 
-ss_load_modules batch bindings prompt file ssh git
+ss_load_modules batch bindings prompt file git
