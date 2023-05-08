@@ -25,6 +25,7 @@ then
     source "$GIT_COMPLETION/git-prompt.sh"
 fi
 
+ss_load_modules completion
 
 # Did we find prompt completion code?
 if (declare -F __git_ps1 >& /dev/null)
