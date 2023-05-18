@@ -24,7 +24,8 @@ alias ost.="open -a SourceTree ."
 if [[ $ITERM_SESSION_ID ]]
 then
     # https://www.iterm2.com/documentation-shell-integration.html
-    test -f ~/.iterm2_shell_integration.bash && source ~/.iterm2_shell_integration.bash
+    [[ -n $BASH_VERSION && -f ~/.iterm2_shell_integration.bash ]] && source ~/.iterm2_shell_integration.bash
+    [[ -n $ZSH_VERSION  && -f ~/.iterm2_shell_integration.zsh  ]] && source ~/.iterm2_shell_integration.zsh
 
     # https://iterm2.com/documentation-utilities.html
     test -d ~/.iterm2 && pathmunge ~/.iterm2 after
