@@ -9,5 +9,4 @@ export PAGER=less
 export LESS="-FQRX"
 export EDITOR=emacs     # TODO This shouldn't be here.
 
-
-ss_load_modules batch bindings completion prompt file git
+ss_load_modules batch git bindings completion prompt file

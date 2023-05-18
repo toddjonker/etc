@@ -35,7 +35,10 @@ then
 #   GIT_PS1_SHOWUNTRACKEDFILES=1
     GIT_PS1_SHOWUPSTREAM=auto
 
-    PS1=$PS1_PREFIX'$(__git_ps1 " (%s)")'$PS1_SUFFIX
+    # shellcheck disable=SC2016
+    PS1_GIT_BITS='$(__git_ps1 " (%s)")'
+
+    ss_unset_later PS1_GIT_BITS
 fi
 
 unset GIT_HOME GIT_CONTRIB GIT_COMPLETION
