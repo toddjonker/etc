@@ -20,6 +20,8 @@ USER_LIBRARY=${USER_LIBRARY:-~/etc}
 #------------------------------------------------------------------------------
 # Cleanup mechanism
 
+_SS_UNSET_LATER=_SS_UNSET_LATER
+
 function ss_unset_later()
 {
     # This is a space-separated list of shell items to be unset
@@ -28,7 +30,7 @@ function ss_unset_later()
     _SS_UNSET_LATER="$_SS_UNSET_LATER $*"
 }
 
-ss_unset_later ss_unset_later _SS_UNSET_LATER
+ss_unset_later ss_unset_later
 
 
 #------------------------------------------------------------------------------
@@ -95,6 +97,28 @@ function shellseed_use_libraries()
 ss_unset_later shellseed_use_libraries _SS_LIBRARIES _SS_LIBRARY_ROOT
 
 
+#
+# Find library file with shell-appropriate extension.
+#
+function _ss_pick_libfile()
+{
+    local basename=$1
+    local basepath=$_SS_LIBRARY_ROOT/$basename
+
+    if [[ -n $ZSH_VERSION && -f $basepath.zsh ]]
+    then
+        echo "$basename.zsh"
+    elif [[ -n $BASH_VERSION && -f $basepath.bash ]]
+    then
+        echo "$basename.bash"
+    else
+        echo "$basename.sh"
+    fi
+}
+
+ss_unset_later _ss_pick_libfile
+
+
 function ss_source_next()
 {
     # This uses global variables to make it easy on the user.
@@ -107,7 +131,8 @@ function ss_source_next()
 
         ss_log "Looking for $_SS_LOADING_MODULE in $libname"
 
-        local libfile=$libname/$_SS_LOADING_MODULE.sh
+        local libfile
+        libfile=$(_ss_pick_libfile "$libname/$_SS_LOADING_MODULE")
         if [[ -f $_SS_LIBRARY_ROOT/$libfile ]]
         then
             ss_log "Sourcing $libfile"
@@ -188,6 +213,10 @@ function shellseed_init()
     ss_load_modules $modules
 
     # All done! Remove our stuff from the environment.
+    [[ -n $ZSH_VERSION ]] && emulate -L ksh
+
+    # Assume an old Bash.
+    # shellcheck disable=SC2086
     unset $_SS_UNSET_LATER
     unset shellseed_init
 }
@@ -195,6 +224,8 @@ function shellseed_init()
 
 function _ss_parse_args()
 {
+    [[ -n $ZSH_VERSION ]] && emulate -L ksh
+
     local libs mods o
 
     while getopts ":l:m:h" o; do
@@ -208,8 +239,10 @@ function _ss_parse_args()
     shift $((OPTIND-1))
     unset OPTIND
 
-    shellseed_use_libraries ${libs:-common}
-    shellseed_init $mods
+    # shellcheck disable=SC2086
+    shellseed_use_libraries ${libs:-common}  # Fails in ZSH
+    # shellcheck disable=SC2086
+    shellseed_init $mods                     # Fails in ZSH
 }
 ss_unset_later _ss_parse_args
 
