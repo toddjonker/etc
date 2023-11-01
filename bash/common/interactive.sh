@@ -19,6 +19,7 @@ fi
 
 export PAGER=less
 export LESS="-FQRX"
+export LESSCHARSET=utf-8
 export EDITOR=emacs     # TODO This shouldn't be here.
 
 ss_load_modules batch git bindings completion prompt file
