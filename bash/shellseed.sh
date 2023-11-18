@@ -20,17 +20,26 @@ USER_LIBRARY=${USER_LIBRARY:-~/etc}
 #------------------------------------------------------------------------------
 # Cleanup mechanism
 
-_SS_UNSET_LATER=_SS_UNSET_LATER
+# This array holds the names of items to be unset when we're done.
+declare -a _SS_UNSET_LATER
 
 function ss_unset_later()
 {
-    # This is a space-separated list of shell items to be unset
-    # at the end of the setup process.
-    local IFS=' '
-    _SS_UNSET_LATER="$_SS_UNSET_LATER $*"
+    _SS_UNSET_LATER=("$@" "${_SS_UNSET_LATER[@]}")
 }
 
-ss_unset_later ss_unset_later
+function ss_cleanup()
+{
+    # All done! Remove our stuff from the environment.
+    ss_log "Cleaning up the shell environment"    
+
+    for v in "${_SS_UNSET_LATER[@]}"
+    do
+	    unset "$v"
+    done
+}
+
+ss_unset_later _SS_UNSET_LATER ss_unset_later ss_cleanup
 
 
 #------------------------------------------------------------------------------
@@ -62,6 +71,8 @@ declare -a _SS_LIBRARIES
 
 function shellseed_use_libraries()
 {
+    # Process the arguments, recursively, right to left.
+    # Leftmost library has priority when searching for modules.
     local libname=$1; shift
 
     if [[ $# -ne 0 ]]
@@ -123,15 +134,19 @@ function ss_source_next()
 {
     # This uses global variables to make it easy on the user.
 
+    local libfile # Zsh prints current value, so don't do this in the loop.
+    
     while (( _SS_CURRENT_LIBRARY < ${#_SS_LIBRARIES[*]} ))
     do
+        # Zsh arrays start at 1, but comparison above assumes 0, so pre-increment.
+        [[ -n $ZSH_VERSION ]] && _SS_CURRENT_LIBRARY=$(( _SS_CURRENT_LIBRARY + 1 ))
+
         local libname=${_SS_LIBRARIES[$_SS_CURRENT_LIBRARY]}
 
-        _SS_CURRENT_LIBRARY=$(( _SS_CURRENT_LIBRARY + 1 ))
+        [[ -z $ZSH_VERSION ]] && _SS_CURRENT_LIBRARY=$(( _SS_CURRENT_LIBRARY + 1 ))
 
         ss_log "Looking for $_SS_LOADING_MODULE in $libname"
 
-        local libfile
         libfile=$(_ss_pick_libfile "$libname/$_SS_LOADING_MODULE")
         if [[ -f $_SS_LIBRARY_ROOT/$libfile ]]
         then
@@ -196,55 +211,50 @@ function shellseed_init()
 {
     ss_log "Effective libraries:" "${_SS_LIBRARIES[@]}"
 
-    local IFS=' '
-    local modules="$*"
-    ss_log "Requested modules: $modules"
-    
-    if [[ -z $modules ]]
+    local modules=("$@")
+    ss_log "Requested modules: ${modules[*]}"
+
+    if [[ $# -eq 0 ]]
     then
         if [[ -n $PS1 ]]
         then
-            modules="interactive"
+            modules=("interactive")
         else
-            modules="batch"
+            modules=("batch")
         fi
     fi
     
-    ss_load_modules $modules
-
-    # All done! Remove our stuff from the environment.
-    [[ -n $ZSH_VERSION ]] && emulate -L ksh
-
-    # Assume an old Bash.
-    # shellcheck disable=SC2086
-    unset $_SS_UNSET_LATER
-    unset shellseed_init
+    ss_load_modules "${modules[@]}"
+    ss_cleanup
 }
+ss_unset_later shellseed_init
 
+
+declare -a _SS_MODULES
 
 function _ss_parse_args()
 {
-    [[ -n $ZSH_VERSION ]] && emulate -L ksh
-
-    local libs mods o
+    local OPTARG OPTIND o
+    local -a libs
 
     while getopts ":l:m:h" o; do
         case "$o" in
             h) _ss_usage; return;;
-            l) libs="$libs $OPTARG";;
-            m) mods="$mods $OPTARG";;
+            l) libs=("$OPTARG" "${libs[@]}");;
+            m) _SS_MODULES=("$OPTARG" "${_SS_MODULES[@]}");;
             *) echo "[shellseed] illegal option -$OPTARG"; _ss_usage; return;;
         esac
     done
     shift $((OPTIND-1))
-    unset OPTIND
+    unset OPTARG OPTIND
 
-    # shellcheck disable=SC2086
-    shellseed_use_libraries ${libs:-common}  # Fails in ZSH
-    # shellcheck disable=SC2086
-    shellseed_init $mods                     # Fails in ZSH
+    [[ ${#libs} -eq 0 ]] && libs=(common)
+
+    shellseed_use_libraries "${libs[@]}"
+
+    # Cannot load modules here; we first need to cleanup the environment from getopts!
 }
-ss_unset_later _ss_parse_args
+ss_unset_later _ss_parse_args _SS_MODULES
 
 
 function _ss_usage()
@@ -263,4 +273,4 @@ ss_unset_later _ss_usage
 
 # When arguments are given, parse them.
 # Otherwise, assume the caller will invoke shellseed_init later.
-[[ -n "$*" ]] && _ss_parse_args "$@"
+[[ -n "$*" ]] && _ss_parse_args "$@" && shellseed_init "${_SS_MODULES[@]}"
