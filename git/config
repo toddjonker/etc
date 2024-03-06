@@ -9,12 +9,16 @@
 [color]
 	ui = auto
 
+[init]
+	defaultBranch = main
+
 [branch]
 	autosetupmerge = always
 	autosetuprebase = always
 
 [push]
 	default = simple
+	recurseSubmodules = check
 
 [rebase]
 	autoStash = true
@@ -22,9 +26,16 @@
 [diff]
 	mnemonicprefix = true
 	renames = true
+	submodule = log
 
 [rerere]
 	enabled = true
+
+[status]
+	submodulesummary = 1
+
+[submodule]
+	recurse = true
 
 [alias]
 	co   = checkout
