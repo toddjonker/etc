@@ -1,5 +1,3 @@
-ss_load_modules git # For PS1_GIT_BITS
-
 
 # The sequence  %{\033[#;#m%}   sets the ANSI colour or attribute specified
 # by # (or several attributes can be specified by #;#;#...).
@@ -42,6 +40,8 @@ elif [ "$TERM" = "emacs" ]
 then
     PS1="[\W]\$ ";
 else
+    ss_load_modules git-prompt
+
     # This makes it easier to inject stuff into the prompt.
     PS1_PREFIX='\[\e[1;35m\][\W'
     PS1_SUFFIX=']\$\[\e[0m\] '
