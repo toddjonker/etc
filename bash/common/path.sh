@@ -31,7 +31,4 @@ then
     pathmunge ~/bin before
 fi
 
-if [[ -e ~/.cargo/env ]]
-then
-    source ~/.cargo/env
-fi
+ss_source_if_present ~/.cargo/env

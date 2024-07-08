@@ -130,6 +130,29 @@ function _ss_pick_libfile()
 ss_unset_later _ss_pick_libfile
 
 
+function ss_source_if_present()
+{
+    local script=$1
+    local base=$2
+
+    if [[ -f "${base}${script}" ]]
+    then
+        ss_log "Sourcing $script"
+
+        local prior_prefix=$_SS_LOG_PREFIX
+        _SS_LOG_PREFIX="> $_SS_LOG_PREFIX"
+
+        # shellcheck disable=SC1090
+        source "${base}${script}"
+
+        _SS_LOG_PREFIX=$prior_prefix
+    else
+        ss_log "Not sourcing absent file $script"
+    fi
+}
+ss_unset_later ss_source_if_present
+
+
 function ss_source_next()
 {
     # This uses global variables to make it easy on the user.
@@ -150,15 +173,7 @@ function ss_source_next()
         libfile=$(_ss_pick_libfile "$libname/$_SS_LOADING_MODULE")
         if [[ -f $_SS_LIBRARY_ROOT/$libfile ]]
         then
-            ss_log "Sourcing $libfile"
-
-            local prior_prefix=$_SS_LOG_PREFIX
-            _SS_LOG_PREFIX="> $_SS_LOG_PREFIX"
-            
-            # shellcheck disable=SC1090
-            . "$_SS_LIBRARY_ROOT/$libfile"
-
-            _SS_LOG_PREFIX=$prior_prefix
+            ss_source_if_present "$libfile" "$_SS_LIBRARY_ROOT/"
             return
         fi
     done

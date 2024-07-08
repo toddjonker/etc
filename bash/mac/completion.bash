@@ -10,11 +10,7 @@ then
     else
         for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
         do
-            if [[ -r "$COMPLETION" ]]
-            then
-                ss_log "Sourcing $COMPLETION"
-                source "$COMPLETION"
-            fi
+            ss_source_if_present "$COMPLETION"
         done
     fi
     unset HOMEBREW_PREFIX
