@@ -45,9 +45,9 @@ else
 
     set-title()
     {
-	TERMINAL_WINDOW_TITLE=$*
-	# This by itself doesn't have much effect; it's used by
-	# PROMPT_COMMAND to change the title when the prompt is printed.
+        TERMINAL_WINDOW_TITLE=$*
+        # This by itself doesn't have much effect; it's used by
+        # PROMPT_COMMAND to change the title when the prompt is printed.
     }
 
     st.()

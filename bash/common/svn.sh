@@ -50,17 +50,17 @@ function svn-tag
     local tag=$1
     if [ -z "$tag" ]
     then
-	echo "Usage: svn-tag TAG"
-	echo "  Tags a Subversion project."
-	echo "  The working directory must be a working copy of a trunk."
-	return 1
+        echo "Usage: svn-tag TAG"
+        echo "  Tags a Subversion project."
+        echo "  The working directory must be a working copy of a trunk."
+        return 1
     fi
 
     local trunkUrl=$(svn-url)
     if [ ! "$(basename $trunkUrl)" = "trunk" ]
     then
-	echo "You must invoke svn-tag from a Subversion trunk working copy."
-	return 1
+        echo "You must invoke svn-tag from a Subversion trunk working copy."
+        return 1
     fi
 
     local projectUrl=$(dirname $trunkUrl)
@@ -72,8 +72,8 @@ function svn-tag
     local exist=$(svn ls $tagsUrl | grep "^$tag/$")
     if [ ! -z "$exist" ]
     then
-	echo "Tag already exists: $destUrl"
-	return
+        echo "Tag already exists: $destUrl"
+        return
     fi
     
     echo "Tagging $project at $destUrl"
@@ -91,17 +91,17 @@ function svn-untag
     local tag=$1
     if [ -z "$tag" ]
     then
-	echo "Usage: svn-untag TAG"
-	echo "  Removes a Subversion project tag."
-	echo "  The working directory must be a working copy of a trunk."
-	return 1
+        echo "Usage: svn-untag TAG"
+        echo "  Removes a Subversion project tag."
+        echo "  The working directory must be a working copy of a trunk."
+        return 1
     fi
 
     local trunkUrl=$(svn-url)
     if [ ! "$(basename $trunkUrl)" = "trunk" ]
     then
-	echo "You must invoke svn-untag from a Subversion trunk working copy."
-	return 1
+        echo "You must invoke svn-untag from a Subversion trunk working copy."
+        return 1
     fi
 
     local projectUrl=$(dirname $trunkUrl)
@@ -113,8 +113,8 @@ function svn-untag
     local exist=$(svn ls $tagsUrl | grep "^$tag/$")
     if [ -z "$exist" ]
     then
-	echo "Tag does not exist: $destUrl"
-	return
+        echo "Tag does not exist: $destUrl"
+        return
     fi
     
     echo "Removing $destUrl"
@@ -127,39 +127,39 @@ function svn-new-project
     local projectUrl=$1
     if [ -z "$projectUrl" ]
     then
-	echo "Usage: svn-new-project PROJECT_URL"
-	echo "  Creates a new Subversion project."
-	echo "  PROJECT_URL must identify a non-existent directory in a Subversion repository."
-	echo "  The directory will be added and committed along with empty directories"
-	echo "  for branches/tags/trunk.  The new trunk is then checked out into the current"
-	echo "  directory."
-	return 1
+      echo "Usage: svn-new-project PROJECT_URL"
+      echo "  Creates a new Subversion project."
+      echo "  PROJECT_URL must identify a non-existent directory in a Subversion repository."
+      echo "  The directory will be added and committed along with empty directories"
+      echo "  for branches/tags/trunk.  The new trunk is then checked out into the current"
+      echo "  directory."
+      return 1
     fi
 
     local project=$(basename $projectUrl)
     if [ -e "$project" ]
     then
-	echo "A file '$project' exists here, so we can't create it."
-	return 1
+      echo "A file '$project' exists here, so we can't create it."
+      return 1
     fi
 
     local repoUrl=$(dirname $projectUrl)
     if [ "." = "$repoUrl" ]
     then
-	echo "Bad repository path: $projectUrl"
-	return 1
+      echo "Bad repository path: $projectUrl"
+      return 1
     fi
     
     if ! svn ls $repoUrl >& /dev/null
     then
-	echo "Parent directory doesn't exist in repository: $repoUrl"
-	return 1
+      echo "Parent directory doesn't exist in repository: $repoUrl"
+      return 1
     fi
     
     if svn ls $projectUrl >& /dev/null
     then
-	echo "Project directory already exists: $projectUrl"
-	return 1
+      echo "Project directory already exists: $projectUrl"
+      return 1
     fi
 
     echo "Creating new directory in repository..."
@@ -167,7 +167,7 @@ function svn-new-project
 
     svn co $projectUrl \
         && svn mkdir $project/branches $project/tags $project/trunk \
-	|| return 1
+	      || return 1
 
     cat > $project/README <<EOF
 
@@ -192,9 +192,9 @@ This is the top of the $project repository.
 EOF
    
     svn add $project/README \
-	&& echo "Committing new project structure" \
-	&& svn ci -m "Created project branches/tags/trunk" $project \
-	&& /bin/rm -rf $project \
-	&& svn co "$projectUrl/trunk" $project \
-	&& echo "Your new project's trunk is now here: $project"
+        && echo "Committing new project structure" \
+        && svn ci -m "Created project branches/tags/trunk" $project \
+        && /bin/rm -rf $project \
+        && svn co "$projectUrl/trunk" $project \
+        && echo "Your new project's trunk is now here: $project"
 }

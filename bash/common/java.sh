@@ -25,7 +25,7 @@ jsubst()
 {
     for i in $(find . -type f \( -name "*.java" -o -name "*.properties" \) -print0 | xargs -0)
     do 
-      sed -e "s/$1/$2/g" < "$i" > "$i.new"
-      mv -f "$i.new" "$i"
+        sed -e "s/$1/$2/g" < "$i" > "$i.new"
+        mv -f "$i.new" "$i"
     done
 }

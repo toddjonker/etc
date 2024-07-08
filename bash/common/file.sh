@@ -83,7 +83,7 @@ alias clean='rm *BAK *~ *% .*BAK .*~ .*% #*# core*'
 cleansrc()
 {
     find . -type f \( -name "*~" -o -name "\.DS_Store" -o -name "#*#" \) \
-	-exec /bin/rm {} \;
+        -exec /bin/rm {} \;
 }
 
 
