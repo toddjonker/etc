@@ -2,6 +2,9 @@
 ###  Development helpers
 ###
 
+alias gw=./gradlew
+alias gv=./gradlew --console=verbose
+
 jfindr()
 {
     find . \( -name "*.java" -o -name "*.jsp" -o -name "*.jhtml" -o -name "*.properties" -o -name "*.xml" \) -exec egrep "$*" {} /dev/null \;
