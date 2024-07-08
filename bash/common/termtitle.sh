@@ -24,11 +24,20 @@ reset-title()
 
 reset-title
 
+update-terminal-title()
+{
+    # This magic sequence is what changes the terminal title.
+    echo -ne "\033]0;${TERMINAL_WINDOW_TITLE}\007"
+}
 
-# This magic sequence is what actually changes the terminal title.
-# We use PROMPT_COMMAND to set it every time the prompt is printed.
-if [ "$TERM" != "linux" ]
+
+# Use prompt commands to update the title.
+# This ensures the title is updated when return from subshells.
+if [[ -n $ZSH_VERSION ]]
+then
+    precmd_functions+=( update-terminal-title )
+elif [[ -n $BASH_VERSION ]]
 then
     # Be careful to preserve ITerm2 integration command.
-    PROMPT_COMMAND='echo -ne "\033]0;${TERMINAL_WINDOW_TITLE}\007"; '"$PROMPT_COMMAND";
+    PROMPT_COMMAND='update-terminal-title; '"$PROMPT_COMMAND"
 fi
