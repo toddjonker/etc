@@ -147,7 +147,9 @@ function ss_source_if_present()
 
         _SS_LOG_PREFIX=$prior_prefix
     else
+        # TODO Add -q option to avoid this?
         ss_log "Not sourcing absent file $script"
+        return 1
     fi
 }
 ss_unset_later ss_source_if_present
