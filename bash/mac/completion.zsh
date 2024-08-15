@@ -3,7 +3,7 @@ if type brew &>/dev/null
 then
     HOMEBREW_PREFIX="$(brew --prefix)"
 
-    FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:${FPATH}"
+   fpath=( ${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath )
 
     # Homebrew doesn't include this in site-functions!
     ss_source_if_present "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-prompt.sh"
