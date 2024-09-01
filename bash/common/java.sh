@@ -18,8 +18,7 @@ checkjars()
 
 
 
-# Here's a sample bash command for search-and-replace within java files
-# for i in `find . -type f -name "*.java" | xargs`; do cat $i | perl -e '$c=0; foreach (<STDIN>) { s/Inpath Solutions, LLC/Todd V. Jonker/ if $c < 3;  print $_; $c++; }' > $i.new; mv -f $i.new $i; done
+# Search-and-replace within java files
 
 jsubst()
 {
