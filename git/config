@@ -12,6 +12,12 @@
 [init]
 	defaultBranch = main
 
+
+[checkout]
+    # https://git-scm.com/docs/git-checkout#Documentation/git-checkout.txt-checkoutdefaultRemote
+    # When guessing a remote branch to track/checkout, use this to disambiguate.
+	defaultRemote = origin
+
 [branch]
 	autosetupmerge = always
 	autosetuprebase = always
