@@ -1,5 +1,9 @@
 
-# The sequence  %{\033[#;#m%}   sets the ANSI colour or attribute specified
+# Useful references:
+#   https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+#   https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+#
+# The sequence  <ESC>[#;#m   sets the ANSI colour or attribute specified
 # by # (or several attributes can be specified by #;#;#...).
 # Possible values for # are:
 #
