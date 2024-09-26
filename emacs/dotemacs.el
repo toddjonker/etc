@@ -355,11 +355,11 @@ Like find-file but marks buffer as read-only."
                 ("\\.ih$"  . c++-mode)
                 ("\\.jelly$" . sgml-mode)
                 ("\\.jsp$" . java-mode)
-		("\\.org\\'" . org-mode)
-		("\\.rvw$" . java-mode)
-		("\\.wsdl$" . sgml-mode)
-		("\\.md" . markdown-mode)
-		)
+                ("\\.org\\'" . org-mode)
+                ("\\.rvw$" . java-mode)
+                ("\\.wsdl$" . sgml-mode)
+                ("\\.md" . markdown-mode)
+                )
               auto-mode-alist))
 
 (autoload 'beginning-of-code-line "codeline.el"
@@ -386,7 +386,7 @@ moves point to end of line.")
     (c-offsets-alist . ((innamespace . 0)
                         (label . 0)
                         (case-label . 4)
-			(topmost-intro-cont . 4)
+                        (topmost-intro-cont . 4)
                         (member-init-intro . *)
                         (inher-intro . +)
                         (inline-open . 0)
@@ -416,19 +416,18 @@ moves point to end of line.")
 ;; Customizations for java-mode
 
 (defun untabify-buffer ()
+  "Untabify the current buffer."
+  (interactive)
   (untabify (point-min) (point-max)))
 
+(defun untabify-before-save ()
+  (add-hook 'before-save-hook 'untabify-buffer))
+  
 
 (defun my-java-mode-hook ()
 
   (setq tab-width 4)
-
-  ;; When we load a java file, retabify it so we don't have to mess with
-  ;; tons of spaces. (Remove quote to activate.)
-  '(tabify (point-min) (point-max))
-
-  ;; When we write the file, turn all tabs to spaces.
-  (add-hook 'write-contents-hooks 'untabify-buffer nil nil)
+  (untabify-before-save)
 
   (define-key java-mode-map [f2]   'c-indent-exp)
   (define-key java-mode-map "\C-a" 'beginning-of-code-line)
@@ -450,26 +449,24 @@ moves point to end of line.")
 ;(autoload 'jsp-html-helper-mode "html-helper-mode" "Yay HTML" t)
 '(setq auto-mode-alist
       (append '(("\\.jhtml$" . html-helper-mode)
-		("\\.html$" . html-helper-mode)
-		("\\.jsp$"  . jsp-html-helper-mode))
-	      auto-mode-alist))
+                ("\\.html$" . html-helper-mode)
+                ("\\.jsp$"  . jsp-html-helper-mode))
+              auto-mode-alist))
 
 (defun my-html-helper-mode-hook ()
   (setq tab-width 4)
+  (untabify-before-save)
+  
   (setq html-helper-do-write-file-hooks t)
 
   (setq html-helper-item-basic-offset 2)
   (setq html-helper-item-continue-indent 2)
-
-  ;; When we write the file, turn all tabs to spaces.
-  (add-hook 'write-contents-hooks 'untabify-buffer nil nil)
   )
 (add-hook 'html-helper-mode-hook 'my-html-helper-mode-hook)
 
 
 (defun my-xml-mode-hook ()
-  ;; When we write the file, turn all tabs to spaces.
-  (add-hook 'write-contents-hooks 'untabify-buffer nil nil))
+  (untabify-before-save))
 (add-hook 'sgml-mode-hook 'my-xml-mode-hook)
 
 
@@ -477,8 +474,8 @@ moves point to end of line.")
 (load "autoinsert")
 (setq auto-insert-directory (concat my-etc-dir "templates/"))
 (setq auto-insert-alist '((".*\\.rvw$"   . "CodingTemplate.rvw")
-			  (".*\\.java$"  . "CodingTemplate.java")
-			  (".*\\.h$"     . "banner.h")
+                          (".*\\.java$"  . "CodingTemplate.java")
+                          (".*\\.h$"     . "banner.h")
                           ("\\.cxx$"     . "banner.cxx")
                           ("\\.cpp$"     . "banner.cxx")
                           ("\\.c$"       . "banner.cxx")
@@ -501,5 +498,5 @@ moves point to end of line.")
     (if (>= emacs-major-version 20)
       (load "emacs20")
       (if (boundp 'pop-up-frames)
-	(load "emacs19")
-	(load "emacs18")))))
+        (load "emacs19")
+        (load "emacs18")))))
