@@ -21,12 +21,17 @@ ss_unset_later pathmunge
 
 # ~/bin precedes ~/etc/bin so you can override binaries in the library.
 
-if [[ -e $USER_LIBRARY/bin ]]
+if [[ -d $USER_LIBRARY/bin ]]
 then
     pathmunge "$USER_LIBRARY/bin" before
 fi
 
-if [[ -e ~/bin ]]
+if [[ -d ~/.local/bin ]]
+then
+    pathmunge ~/.local/bin before
+fi
+
+if [[ -d ~/bin ]]
 then
     pathmunge ~/bin before
 fi
