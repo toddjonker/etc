@@ -1,9 +1,5 @@
 # https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
 
-PROMPT='%F{magenta}%3~ %#%f '
-
-
-# Add VCS info to the right prompt
 
 # Git provides more flexible mechanisms than ZSH, so let's try that.
 ss_load_modules git-prompt
@@ -31,4 +27,8 @@ else
 fi
 
 setopt prompt_subst
-RPROMPT=$PS1_GIT_BITS
+
+PROMPT="%F{magenta}%3~%f$PS1_GIT_BITS %F{magenta}%#%f "
+
+#RPROMPT=$PS1_GIT_BITS
+
