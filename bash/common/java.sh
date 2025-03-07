@@ -2,8 +2,11 @@
 ###  Development helpers
 ###
 
-alias gw=./gradlew
-alias gv=./gradlew --console=verbose
+alias gcr="./gradlew clean release"
+alias gr="./gradlew release"
+alias gv="./gradlew --console=verbose"
+alias gw="./gradlew"
+
 
 jfindr()
 {
