@@ -1,3 +1,5 @@
+# https://direnv.net/
+
 if type direnv &>/dev/null
 then
     if [[ -n $ZSH_VERSION ]]
