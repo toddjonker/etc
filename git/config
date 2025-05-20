@@ -30,6 +30,8 @@
 	autoStash = true
 
 [diff]
+    # https://adamj.eu/tech/2024/01/18/git-improve-diff-histogram/
+	algorithm = histogram
 	mnemonicprefix = true
 	renames = true
 	submodule = log
