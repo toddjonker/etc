@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -o errexit  # Exit the script if any statement returns a non-true return value.
+set -o nounset  # Exit script if any uninitialised variable is used.
+set -o pipefail # Fail if commands fail as part of a pipeline.
+
+cd ~
+
+timestamp=$(date +%F-%H-%M-%S)
+
+backup()
+{
+    local file=$1
+
+    if [[ -e $file || -h $file ]]
+    then
+        mv "$file" "$file-$timestamp"
+    else
+        echo "not moving $file"
+    fi
+}
+
+backup-and-link()
+{
+    local file=$1
+    local target=$2
+
+    backup "$file"
+    ln -s "$target" "$file"
+}
+
+backup-and-copy()
+{
+    local file=$1
+    local target=$2
+
+    backup "$file"
+    cp -p "$target" "$file"
+}
+
+
+backup-and-link .bash_profile .bashrc
+backup-and-copy .bashrc       etc/home/.bashrc
+backup-and-copy .emacs        etc/home/.emacs
+backup-and-link .gitconfig    etc/git/config-amazon-linux
+
+echo "Setup complete."
